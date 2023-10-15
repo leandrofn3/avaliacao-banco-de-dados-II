@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  idUser   String     @id @db.Uuid
+  idUser   String     @id @db.Uuid @default(uuid())
   name     String     @db.VarChar(20)
   email    String     @db.VarChar(50)
   userName String     @unique @db.VarChar(20)
