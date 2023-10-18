@@ -5,6 +5,10 @@ export interface CreateUserDto {
     password: string;
 }
 
-export interface DeleteUserDto {
-    
+export interface UpdateUserDto {
+    id: string
+    name?: string;
+    email?: string;
+    username?: string;
+    password?: string;
 }

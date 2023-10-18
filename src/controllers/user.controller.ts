@@ -6,11 +6,7 @@ export class UserController {
 
         const user = await userService.findAll();
 
-        return res.status(200).send({
-            success: true,
-            message: "Listagem de usuários",
-            data: user
-        });
+        return res.status(user.code).send(user);
     }
 
     public async create(req: Request, res: Response) {
@@ -36,13 +32,38 @@ export class UserController {
 
     public show(req: Request, res: Response) { }
 
-    public update(req: Request, res: Response) { }
-
-    public delete(req: Request, res: Response) {
+    public async delete(req: Request, res: Response) {
         try {
-            const {id} = req.params
+            const { id } = req.params
 
-            return res.status(200).send()
+            
+            const result = await userService.delete(id);
+        
+            return res.status(result.code).send(result);
+
+        } catch (err: any) {
+            res.status(500).send({
+                ok: false,
+                message: err.toString()
+            });
+        }
+    }
+
+    public async update(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const {name, email, username, password} = req.body;
+
+            
+            const result = await userService.update({
+                id,
+                name,
+                email,
+                username,
+                password
+            });
+        
+            return res.status(result.code).send(result);
 
         } catch (err: any) {
             res.status(500).send({
