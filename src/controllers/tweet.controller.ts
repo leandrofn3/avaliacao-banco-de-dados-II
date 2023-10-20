@@ -1,25 +1,32 @@
-import { Request, Response } from "express";
-import userService from "../services/user.service";
+import { Response, Request } from "express";
+import tweetService from "../services/tweet.service";
 
-export class UserController {
+export class TweetController {
     public async index(req: Request, res: Response) {
+        try {
+            const tweet = await tweetService.findAll();
 
-        const user = await userService.findAll();
+            return res.status(tweet.code).send(tweet);
 
-        return res.status(user.code).send(user);
+        } catch (err: any) {
+            res.status(500).send({
+                ok: false,
+                message: err.toString()
+            });
+        }
     }
 
     public async create(req: Request, res: Response) {
         try {
-            const { name, email, username, password } = req.body;
+            const { content, idUser } = req.body;
 
-            const result = await userService.create({
-                name, email, username, password
+            const result = await tweetService.create({
+                content, idUser
             });
 
             return res.status(201).send({
                 ok: true,
-                message: "User successfully created",
+                massage: "Tweet successfully created",
                 data: result
             });
         } catch (err: any) {
@@ -28,16 +35,14 @@ export class UserController {
                 message: err.toString()
             });
         };
-    }
-
-    public show(req: Request, res: Response) { }
+    };
 
     public async delete(req: Request, res: Response) {
         try {
-            const { id } = req.params
+            const { id } = req.params;
 
-            const result = await userService.delete(id);
-        
+            const result = await tweetService.delete(id)
+
             return res.status(result.code).send(result);
 
         } catch (err: any) {
@@ -51,24 +56,20 @@ export class UserController {
     public async update(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const {name, email, username, password} = req.body;
+            const { content } = req.body;
 
-            
-            const result = await userService.update({
+            const result = await tweetService.update({
                 id,
-                name,
-                email,
-                username,
-                password
+                content
             });
-        
+
             return res.status(result.code).send(result);
 
         } catch (err: any) {
             res.status(500).send({
                 ok: false,
                 message: err.toString()
-            });
-        }
+            })
+        };
     }
 }

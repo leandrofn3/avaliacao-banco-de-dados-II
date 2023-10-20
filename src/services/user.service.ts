@@ -38,7 +38,7 @@ class UserService {
             },
         });
 
-        console.log(user, "passou aqui")
+        
         if (!user) {
             return {
                 code: 404,
@@ -64,7 +64,7 @@ class UserService {
             where: {
                 idUser: data.id
             }
-        })
+        });
 
         if (!user) {
             return {

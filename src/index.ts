@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import cors from "cors"
 import * as dotenv from "dotenv"
 import userRouter from "./routes/user.routes";
+import TweetRouter from "./routes/tweet.routes"
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(userRouter);
+app.use(TweetRouter)
 
 const port = process.env.PORT
 
