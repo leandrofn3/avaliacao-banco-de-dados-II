@@ -9,4 +9,6 @@ router.post("/users/create", controller.create);
 router.delete("/users/delete/:id", controller.delete);
 router.put("/users/update/:id", controller.update);
 
+router.get("/user/tweets/:id", controller.listTweetsUser)
+
 export default router;

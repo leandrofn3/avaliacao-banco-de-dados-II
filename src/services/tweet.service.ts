@@ -8,13 +8,40 @@ class TweetService {
         const data = await repository.tweet.findMany()
         return {
             code: 200,
-            message: "tweet successFully listed",
+            message: "tweet successfully listed",
             data
         };
     };
 
+    public async listFromUser(idUser: string) {
+        const user = await repository.user.findUnique({
+            where: {
+                idUser: idUser, 
+            },
+        });
+
+        if(!user){
+            return {
+                code: 404,
+                message: "User not found"
+            };
+        }
+
+        const tweet = await repository.tweet.findMany({
+            where: {
+                idUser,
+            }
+        });
+
+        return {
+            code: 200,
+            message: "tweet successfully listed",
+            data: tweet
+        };
+    }
+
     public async create(data: CreateTweetDto) {
-        const tweet = new Tweet(data.content, data.idUser)
+        const tweet = new Tweet(data.content, data.idUser);
 
         const createTweet = await repository.tweet.create({
             data: {

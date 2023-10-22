@@ -1,4 +1,3 @@
-import { Public } from "@prisma/client/runtime/library";
 import { repository } from "../database/prisma.database";
 import { ResponseDto } from "../dtos/response.dto";
 import { CreateUserDto, UpdateUserDto } from "../dtos/user.dto";
@@ -38,7 +37,7 @@ class UserService {
             },
         });
 
-        
+
         if (!user) {
             return {
                 code: 404,
@@ -95,5 +94,3 @@ class UserService {
 
 
 export default new UserService();
-
-//57:25

@@ -26,7 +26,7 @@ export class TweetController {
 
             return res.status(201).send({
                 ok: true,
-                massage: "Tweet successfully created",
+                message: "Tweet successfully created",
                 data: result
             });
         } catch (err: any) {
@@ -41,7 +41,7 @@ export class TweetController {
         try {
             const { id } = req.params;
 
-            const result = await tweetService.delete(id)
+            const result = await tweetService.delete(id);
 
             return res.status(result.code).send(result);
 

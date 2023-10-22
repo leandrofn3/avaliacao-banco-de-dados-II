@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import userService from "../services/user.service";
+import tweetService from "../services/tweet.service";
 
 export class UserController {
     public async index(req: Request, res: Response) {
@@ -8,6 +9,23 @@ export class UserController {
 
         return res.status(user.code).send(user);
     }
+
+    public async listTweetsUser(req: Request, res: Response){
+        try {
+            const { id } = req.params;
+
+            const result = await tweetService.listFromUser(id)
+
+            return res.status(result.code).send(result);
+
+        } catch (err: any) {
+            res.status(500).send({
+                ok: false,
+                message: err.toString()
+            });
+        };
+    }
+
 
     public async create(req: Request, res: Response) {
         try {

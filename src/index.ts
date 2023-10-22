@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import express, { Request, Response } from "express";
 import cors from "cors"
 import * as dotenv from "dotenv"
 import userRouter from "./routes/user.routes";
 import TweetRouter from "./routes/tweet.routes"
+import LikeRouter from "./routes/like.routes"
 
 dotenv.config();
 
@@ -11,7 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(userRouter);
-app.use(TweetRouter)
+app.use(TweetRouter);
+app.use(LikeRouter);
 
 const port = process.env.PORT
 
