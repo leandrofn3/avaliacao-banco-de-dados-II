@@ -1,6 +1,6 @@
 import { repository } from "../database/prisma.database";
 import { ResponseDto } from "../dtos/response.dto";
-import { CreateUserDto, UpdateUserDto } from "../dtos/user.dto";
+import { CreateUserDto,UpdateUserDto } from "../dtos/user.dto";
 import { User } from "../models/user.model";
 
 class UserService {
@@ -11,6 +11,17 @@ class UserService {
             message: "Users successfully listed",
             data,
         };
+    }
+
+    public async getByEmailAndPassword(email: string, password: string){
+        const user = await repository.user.findUnique({
+            where: {
+                email: email,
+                password: password
+            },
+        });
+
+        return user;
     }
 
     //Criar usuário
@@ -58,11 +69,11 @@ class UserService {
     };
 
     public async update(data: UpdateUserDto): Promise<ResponseDto> {
-
+        console.log("aqui e o data", data.id)
         const user = await repository.user.findUnique({
             where: {
                 idUser: data.id
-            }
+            },
         });
 
         if (!user) {
@@ -80,7 +91,8 @@ class UserService {
                 name: data.name,
                 email: data.email,
                 userName: data.username,
-                password: data.password
+                password: data.password,
+                token: data.token
             },
         });
 

@@ -4,6 +4,7 @@ import * as dotenv from "dotenv"
 import userRouter from "./routes/user.routes";
 import TweetRouter from "./routes/tweet.routes"
 import LikeRouter from "./routes/like.routes"
+import authRouter from "./routes/auth.routes"
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(userRouter);
 app.use(TweetRouter);
 app.use(LikeRouter);
+app.use(authRouter)
 
 const port = process.env.PORT
 
