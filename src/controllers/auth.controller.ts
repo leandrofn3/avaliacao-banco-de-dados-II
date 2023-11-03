@@ -4,8 +4,8 @@ import { ResponseDto } from "../dtos/response.dto";
 import { v4 as tokenGerate } from "uuid";
 
 export class AuthController {
-    
-    async create(req: Request, res: Response) {
+
+    public async create(req: Request, res: Response) {
         const { email, password } = req.body;
 
         const user = await userService.getByEmailAndPassword(email, password);
@@ -15,8 +15,7 @@ export class AuthController {
         };
 
         const token = tokenGerate();
-        console.log(`gerador de token ${token}`)
-        const update = await userService.update({...user, token: token, id: user.idUser});
+        const update = await userService.update({ ...user, token: token, id: user.idUser });
 
         const response: ResponseDto = {
             code: 200,
@@ -27,5 +26,28 @@ export class AuthController {
         if (update.code === 200) {
             return res.status(response.code).send(response)
         }
+    }
+
+    public async delete(req: Request, res: Response) {
+
+        const { token } = req.headers;
+
+        const user = await userService.getByToken(token as string);
+
+        if (user) {
+            const response: ResponseDto = {
+                code: 200,
+                message: "Logout success",
+            };
+            const update = userService.update({ ...user, token: null, id: user.idUser });
+
+            return res.status(response.code).send(response);
+        }
+
+        const response: ResponseDto = {
+            code: 404,
+            message: "Logout not found",
+        };
+        return res.status(response.code).send(response)
     }
 }

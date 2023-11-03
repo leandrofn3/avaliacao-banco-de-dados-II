@@ -20,6 +20,13 @@ export class TweetController {
         try {
             const { content, idUser } = req.body;
 
+            if(!content || !idUser){
+                return res.status(400).send({
+                    ok: false,
+                    massage: "The user's content and ID must be passed"
+                });
+            }
+
             const result = await tweetService.create({
                 content, idUser
             });

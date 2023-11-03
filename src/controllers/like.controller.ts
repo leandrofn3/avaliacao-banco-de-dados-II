@@ -20,6 +20,13 @@ export class LikeController {
         try {
             const { idUser, idTweet } = req.body;
 
+            if(!idUser || !idTweet){
+                return res.status(400).send({
+                    ok: false,
+                    massage: "Tweet ID and User ID must be passed"
+                });
+            }
+
             const result = await likeService.create({
                 idUser, idTweet
             });

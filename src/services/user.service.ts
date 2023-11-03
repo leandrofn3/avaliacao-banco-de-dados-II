@@ -24,6 +24,16 @@ class UserService {
         return user;
     }
 
+    public async getByToken(token: string){
+        const user = await repository.user.findUnique({
+            where: {
+                token: token,
+            },
+        });
+
+        return user;
+    }
+
     //Criar usuário
     public async create(data: CreateUserDto) {
         const user = new User(data.name, data.email, data.username, data.password);
@@ -69,7 +79,6 @@ class UserService {
     };
 
     public async update(data: UpdateUserDto): Promise<ResponseDto> {
-        console.log("aqui e o data", data.id)
         const user = await repository.user.findUnique({
             where: {
                 idUser: data.id
